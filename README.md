@@ -12,6 +12,10 @@ or just download and copy over scratch.cmd, scratch.py, scratch.yaml, and script
 
 when i was running the repo normally i used the webuildm.cmd not webui.cmd, which i think has to do with a difference in the python enviropnment for some installations?? if its not working try changing whatever that effects.
 
+all the original files are intact (the bulk of my changes are in webuiscratch.py, a modified copy of webui.py) so you can use the actual web ui just the same
+
+I probably wont be maintaining or updating this.
+
 TODO: figure out how to make it label the grids for me
 
 # ------- Original document from the webui repo below --------
