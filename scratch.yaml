@@ -1,0 +1,48 @@
+#To generate a grid, set any combination of prompt, ddim_steps, sampler_name, cfg_scale, and/or seed to a list. if you dont want something to change, make it a one item list or just set the parameter like normal
+#when you run scratch.cmd, it will run through every combination of the options you set, cycling through them in accordance with testorder: first item on the testorder list will be the columns of the grid, second is rows. more parameters will just make multiple grids,
+#which might be awkward coz theyre not labeled yet. the filename of the output image will reflect the grid's axises.
+
+target: txt2img  # img2img not implemented.
+# prompt can either be string or list.
+# If prompt is list then the prompts are iterated in order.
+prompt:
+  - a beautiful Waluigi. devotional renaissance painting. extreme detail, detailed and intricate. twisted rays.
+  - a beautiful Wario. devotional renaissance painting. extreme detail, detailed and intricate. twisted rays.
+ddim_steps:  
+    - 50
+
+sampler_name: # Valid: DDIM, k_dpm_2_a, k_dpm_2, k_euler_a, k_euler, k_heun, k_lms
+    - k_euler_a    
+ddim_eta: 0.0
+n_iter: 1
+batch_size: 1
+cfg_scale:
+    - 5
+    - 8
+    - 13
+seed: # numbers, or put RAND for a random seed. multiple RANDs or RAND along side set seeds works. RAND seed will be consistant as other parameters change.
+    - RAND
+
+height: 512
+width: 512
+#testorder determines the order of which parameter to cycle through first, from innermost loop to outermost loop - parameters not listed will be appended to the list. 
+testorder:
+    - seed
+    - cfg_scale
+    - prompt
+
+# Adding an int to toggles enables the corresponding feature.
+# 0: Create prompt matrix (separate multiple prompts using |, and get all combinations of them)
+# 1: Normalize Prompt Weights (ensure sum of weights add up to 1.0)
+# 2: Save individual images
+# 3: Save grid
+# 4: Sort samples by prompt
+# 5: Write sample info files
+# 6: Fix faces using GFPGAN
+# 7: Upscale images using Real-ESRGAN (NOT TESTED)
+toggles: [1, 2, 4, 5]
+
+# The options below this line have not been tested. Use at your own discretion.
+# Textual inversion embeddings file path:
+fp:
+realesrgan_model_name:
