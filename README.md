@@ -1,5 +1,15 @@
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/altryne/sd-webui-colab/blob/main/Stable_Diffusion_WebUi_Altryne.ipynb)
 
+Quick-and dirty zero-skill mod on the webui repo to generate image grids. instructions on how to set up your grid are in the config file (scratch.yaml).
+
+go through normal installation steps for the webui and run it at least once first to get the environment set up, then you can set your parameters in scratch.yaml, and run scratch.cmd to run your job.
+
+when i was running the repo normally i used the webuildm.cmd not webui.cmd, which i think has to do with a difference in the python enviropnment for some installations?? if its not working try changing whatever that effects.
+
+TODO: figure out how to make it label the grids for me
+
+# ------- Original document from the webui repo below --------
+
 # [Installation](https://github.com/hlky/stable-diffusion/wiki/Installation)
 
 ## [Development, testing, bleeding edge, maybe have bugs](https://github.com/hlky/stable-diffusion-webui)
