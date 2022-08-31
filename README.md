@@ -2,7 +2,13 @@
 
 Quick-and dirty zero-skill mod on the webui repo to generate image grids. instructions on how to set up your grid are in the config file (scratch.yaml).
 
+each image runs a little under 10 secs on my 2080 super
+
 go through normal installation steps for the webui and run it at least once first to get the environment set up, then you can set your parameters in scratch.yaml, and run scratch.cmd to run your job.
+
+alternatively maybe you can clone it on top of your existing stuff? dunno if it would work
+
+or just download and copy over scratch.cmd, scratch.py, scratch.yaml, and scripts/webuiscratch.py - thats all i added versus the original repo
 
 when i was running the repo normally i used the webuildm.cmd not webui.cmd, which i think has to do with a difference in the python enviropnment for some installations?? if its not working try changing whatever that effects.
 
