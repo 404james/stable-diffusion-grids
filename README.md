@@ -16,7 +16,7 @@ all the original files are intact (the bulk of my changes are in webuiscratch.py
 
 I probably wont be maintaining or updating this.
 
-TODO: figure out how to make it label the grids for me
+~~TODO: figure out how to make it label the grids for me~~ thanks to Michael Walker
 
 # ------- Original document from the webui repo below --------
 
