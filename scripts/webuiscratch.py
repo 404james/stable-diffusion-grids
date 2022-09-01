@@ -1775,6 +1775,57 @@ def run_headless():
         print(stats)
         print()
 
+def add_grid_labels(grid_im, width, height, label_values, label_names):
+    def wrap(text, d, font, line_length):
+        lines = ['']
+        for word in text.split():
+            line = f'{lines[-1]} {word}'.strip()
+            if d.textlength(line, font=font) <= line_length:
+                lines[-1] = line
+            else:
+                lines.append(word)
+        return '\n'.join(lines)
+
+    fontsize = (width + height) // 25
+    line_spacing = fontsize // 2
+    fnt = get_font(fontsize)
+    color_active = (0, 0, 0)
+
+    pad_top = height // 4
+    pad_left = width * 3 // 4
+
+    cols = grid_im.width // width
+    rows = grid_im.height // height
+
+    result = Image.new("RGB", (grid_im.width + pad_left, grid_im.height + pad_top), "white")
+    result.paste(grid_im, (pad_left, pad_top))
+
+    d = ImageDraw.Draw(result)
+
+    #label_values, label_names
+
+    names_col = [f"{label_names[0]}={v}" for v in label_values[0]]
+    names_row = [f"{label_names[1]}={v}" for v in label_values[1]]
+
+    prompts_horiz = [wrap(x, d, fnt, width) for x in names_col]
+    prompts_vert = [wrap(x, d, fnt, pad_left) for x in names_row]
+
+    sizes_hor = [(x[2] - x[0], x[3] - x[1]) for x in [d.multiline_textbbox((0, 0), x, font=fnt) for x in prompts_horiz]]
+    sizes_ver = [(x[2] - x[0], x[3] - x[1]) for x in [d.multiline_textbbox((0, 0), x, font=fnt) for x in prompts_vert]]
+
+    for i, col in enumerate(range(cols)):
+        x = pad_left + width * col + width / 2
+        y = pad_top / 2
+        d.multiline_text((x, y), prompts_horiz[i], font=fnt, fill=color_active, anchor="mm", align="center")
+
+
+    for i, row in enumerate(range(rows)):
+        x = pad_left / 2
+        y = pad_top + height * row + height / 2
+        d.multiline_text((x, y), prompts_vert[i], font=fnt, fill=color_active, anchor="mm", align="center")
+
+    return result
+
 def run_headless_scratch():
 #    with open(opt.cli, 'r', encoding='utf8') as f:
 #        kwargs = yaml.safe_load(f)
@@ -1939,6 +1990,7 @@ def run_headless_bscratch():
                         result_images.append(output_images[0])
                 outpath = opt.outdir_txt2img or opt.outdir or "outputs/txt2img-samples"
                 grid = image_grid(result_images, len(loops[1]))
+                grid = add_grid_labels(grid, kwargs["width"], kwargs["height"], loops[0:2], testorder[0:2])
                 grid_count = get_next_sequence_number(outpath, 'grid-')
                 gridname = f"↕️{testorder[1]} vs ↔️{testorder[0]} - {testorder[2]} is {l_b}"
                 grid_file = f"grid-{grid_count:05}-{gridname.replace(' ', '_').translate({ord(x): '' for x in invalid_filename_chars})[:128]}.{grid_ext}"
@@ -1953,5 +2005,7 @@ loops = [0, 0, 0, 0, 0]
 if __name__ == '__main__':
     if opt.cli is None:
         launch_server()
+    elif opt.cli == 'scratch':
+        run_headless_scratch()
     else:
         run_headless_bscratch()
